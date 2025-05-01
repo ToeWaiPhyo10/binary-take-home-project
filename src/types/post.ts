@@ -8,7 +8,7 @@ export interface Post {
   id: number;
   user_id: number;
   content: string;
-  likes: string[];
+  likes: number[];
   video_url: string;
   user: User;
 }

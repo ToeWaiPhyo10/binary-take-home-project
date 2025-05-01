@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import api from "@/lib/api";
-import { PostsResponse } from "@/types/post";
+import { Post, PostsResponse } from "@/types/post";
 
 const PostServices = {
   getPostsByPagination: async ({
@@ -23,6 +23,23 @@ const PostServices = {
     const res: AxiosResponse<PostsResponse> = await api.get(
       `/users/${userId}/posts?page=${page}`
     );
+    return res.data;
+  },
+  updatePostById: async ({
+    postId,
+    content,
+  }: {
+    postId: number;
+    content: string;
+  }) => {
+    const res: AxiosResponse<Post> = await api.post(`/posts/${postId}`, {
+      content,
+    });
+    return res.data;
+  },
+
+  likeByPostId: async ({ postId }: { postId: number }) => {
+    const res: AxiosResponse<Post> = await api.post(`/posts/${postId}/like`);
     return res.data;
   },
 };

@@ -1,15 +1,15 @@
 "use client";
 
 import Post from "@/components/Post";
-import { useGetPostsData } from "@/hooks/useGetPostsData";
 import { useAuthStore } from "@/store/useAuthStore";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Post as PostType } from "@/types/post";
+import { useGetUserPost } from "@/hooks/userGetUserPosts";
 
 export default function MyPosts() {
   const user = useAuthStore((state) => state.user);
-  const { data, fetchNextPage, hasNextPage } = useGetPostsData({
-    userId: user?.id,
+  const { data, fetchNextPage, hasNextPage } = useGetUserPost({
+    userId: user?.id!,
   });
 
   const posts = data?.pages.flatMap((page) => page.data) ?? [];
