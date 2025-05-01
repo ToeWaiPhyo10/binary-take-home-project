@@ -13,9 +13,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useLogin } from "@/hooks/useLogin";
 
 const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  name: z.string().min(1, "Name is required"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
@@ -25,14 +26,22 @@ export default function LoginPage() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      name: "",
       password: "",
     },
   });
 
+  const { mutate: login, isPending } = useLogin();
+
   const onSubmit = async (data: LoginFormValues) => {
-    // Add your login logic here
-    console.log(data);
+    login(
+      { name: data.name, password: data.password },
+      {
+        onError: (error) => {
+          console.error("Login failed:", error);
+        },
+      }
+    );
   };
 
   return (
@@ -42,14 +51,15 @@ export default function LoginPage() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name="email"
+            name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input
-                    type="email"
-                    placeholder="Enter your email"
+                    type="string"
+                    disabled={isPending}
+                    placeholder="Enter your name"
                     {...field}
                   />
                 </FormControl>
@@ -66,6 +76,7 @@ export default function LoginPage() {
                 <FormControl>
                   <Input
                     type="password"
+                    disabled={isPending}
                     placeholder="Enter your password"
                     {...field}
                   />
@@ -74,12 +85,8 @@ export default function LoginPage() {
               </FormItem>
             )}
           />
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={form.formState.isSubmitting}
-          >
-            {form.formState.isSubmitting ? "Logging in..." : "Login"}
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Logging in..." : "Login"}
           </Button>
         </form>
       </Form>

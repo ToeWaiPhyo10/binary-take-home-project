@@ -13,6 +13,18 @@ const PostServices = {
     );
     return res.data;
   },
+  getUserPostList: async ({
+    userId,
+    page,
+  }: {
+    userId: number;
+    page: number;
+  }) => {
+    const res: AxiosResponse<PostsResponse> = await api.get(
+      `/users/${userId}/posts?page=${page}`
+    );
+    return res.data;
+  },
 };
 
 export default PostServices;
