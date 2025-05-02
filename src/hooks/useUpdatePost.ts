@@ -1,6 +1,6 @@
 import PostServices from "@/services/postServices";
-import { useAuthStore } from "@/store/useAuthStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { usePostsStore } from "@/store/usePostsStore";
+import { useMutation } from "@tanstack/react-query";
 import { Post } from "@/types/post";
 
 interface UpdatePostParams {
@@ -9,21 +9,14 @@ interface UpdatePostParams {
 }
 
 export const useUpdatePost = () => {
-  const user = useAuthStore((state) => state.user);
-  const queryClient = useQueryClient();
+  const updatePost = usePostsStore((state) => state.updatePost);
 
   return useMutation<Post, Error, UpdatePostParams>({
     mutationFn: ({ postId, content }) =>
       PostServices.updatePostById({ postId, content }),
-    onSuccess: () => {
-      if (user?.id) {
-        queryClient.invalidateQueries({
-          queryKey: ["user-posts", { userId: user.id }],
-        });
-      }
-      queryClient.invalidateQueries({
-        queryKey: ["posts"],
-      });
+    onSuccess: (updatedPost) => {
+      // Update both posts and userPosts in the store
+      updatePost(updatedPost);
     },
   });
 };

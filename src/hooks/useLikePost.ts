@@ -1,26 +1,24 @@
 import PostServices from "@/services/postServices";
 import { useAuthStore } from "@/store/useAuthStore";
+import { usePostsStore } from "@/store/usePostsStore";
+import { useMutation } from "@tanstack/react-query";
 import { Post } from "@/types/post";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface LikePostParams {
   postId: number;
 }
+
 export const useLikePost = () => {
   const user = useAuthStore((state) => state.user);
-  const queryClient = useQueryClient();
+  const likePost = usePostsStore((state) => state.likePost);
 
   return useMutation<Post, Error, LikePostParams>({
     mutationFn: ({ postId }) => PostServices.likeByPostId({ postId }),
-    onSuccess: () => {
+    onSuccess: (updatedPost, { postId }) => {
       if (user?.id) {
-        queryClient.invalidateQueries({
-          queryKey: ["user-posts", { userId: user.id }],
-        });
+        // Update both posts and userPosts in the store
+        likePost(postId, user.id);
       }
-      queryClient.invalidateQueries({
-        queryKey: ["posts"],
-      });
     },
   });
 };

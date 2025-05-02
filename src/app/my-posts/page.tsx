@@ -2,17 +2,17 @@
 
 import Post from "@/components/Post";
 import { useAuthStore } from "@/store/useAuthStore";
+import { usePostsStore } from "@/store/usePostsStore";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Post as PostType } from "@/types/post";
 import { useGetUserPost } from "@/hooks/userGetUserPosts";
 
 export default function MyPosts() {
   const user = useAuthStore((state) => state.user);
-  const { data, fetchNextPage, hasNextPage } = useGetUserPost({
+  const posts = usePostsStore((state) => state.userPosts);
+  const { fetchNextPage, hasNextPage } = useGetUserPost({
     userId: user?.id!,
   });
-
-  const posts = data?.pages.flatMap((page) => page.data) ?? [];
 
   return (
     <div className="min-h-screen">

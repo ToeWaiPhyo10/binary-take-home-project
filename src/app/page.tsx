@@ -1,13 +1,13 @@
 "use client";
 import Post from "@/components/Post";
 import { useGetPostsData } from "@/hooks/useGetPostsData";
+import { usePostsStore } from "@/store/usePostsStore";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Post as PostType } from "@/types/post";
 
 export default function Home() {
-  const { data, fetchNextPage, hasNextPage } = useGetPostsData();
-
-  const posts = data?.pages.flatMap((page) => page.data) ?? [];
+  const { fetchNextPage, hasNextPage } = useGetPostsData();
+  const posts = usePostsStore((state) => state.posts);
 
   return (
     <div className="min-h-screen">
@@ -25,7 +25,7 @@ export default function Home() {
           }
         >
           <div className="space-y-6">
-            {posts.map((post: PostType, index: number) => (
+            {posts.map((post: PostType) => (
               <Post key={post.id} post={post} />
             ))}
           </div>

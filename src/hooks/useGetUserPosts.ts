@@ -11,14 +11,14 @@ interface PaginatedResponse {
   };
 }
 
-interface UseGetPostsDataProps {
+interface UseGetUserPostsProps {
   userId: number;
 }
 
-export const useGetUserPost = ({ userId }: UseGetPostsDataProps) => {
+export const useGetUserPosts = ({ userId }: UseGetUserPostsProps) => {
   const appendUserPosts = usePostsStore((state) => state.appendUserPosts);
 
-  const query = useInfiniteQuery<PaginatedResponse, Error>({
+  return useInfiniteQuery<PaginatedResponse, Error>({
     queryKey: ["user-posts", { userId }],
     initialPageParam: 1,
     queryFn: async ({ pageParam }) => {
@@ -37,6 +37,4 @@ export const useGetUserPost = ({ userId }: UseGetPostsDataProps) => {
       return undefined;
     },
   });
-
-  return query;
 };
