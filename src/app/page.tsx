@@ -4,16 +4,20 @@ import { useGetPostsData } from "@/hooks/useGetPostsData";
 import { usePostsStore } from "@/store/usePostsStore";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Post as PostType } from "@/types/post";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 export default function Home() {
-  const { fetchNextPage, hasNextPage } = useGetPostsData();
+  const { fetchNextPage, hasNextPage, isLoading } = useGetPostsData();
   const posts = usePostsStore((state) => state.posts);
 
   return (
     <div className="min-h-screen">
       <div className="max-w-4xl mx-auto py-8">
         <h1 className="text-3xl font-bold mb-6">Home</h1>
-        <InfiniteScroll
+        {isLoading ? (
+          <LoadingSkeleton />
+        ) : (
+          <InfiniteScroll
           dataLength={posts.length}
           next={fetchNextPage}
           hasMore={!!hasNextPage}
@@ -30,6 +34,7 @@ export default function Home() {
             ))}
           </div>
         </InfiniteScroll>
+        )}
       </div>
     </div>
   );

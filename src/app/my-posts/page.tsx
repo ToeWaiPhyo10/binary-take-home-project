@@ -6,11 +6,12 @@ import { usePostsStore } from "@/store/usePostsStore";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Post as PostType } from "@/types/post";
 import { useGetUserPost } from "@/hooks/userGetUserPosts";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 export default function MyPosts() {
   const user = useAuthStore((state) => state.user);
   const posts = usePostsStore((state) => state.userPosts);
-  const { fetchNextPage, hasNextPage } = useGetUserPost({
+  const { fetchNextPage, hasNextPage, isLoading } = useGetUserPost({
     userId: user?.id!,
   });
 
@@ -18,7 +19,10 @@ export default function MyPosts() {
     <div className="min-h-screen">
       <div className="max-w-4xl mx-auto py-8">
         <h1 className="text-3xl font-bold mb-6">My Posts</h1>
-        <InfiniteScroll
+        {isLoading ? (
+          <LoadingSkeleton />
+        ) : (
+          <InfiniteScroll
           dataLength={posts.length}
           next={fetchNextPage}
           hasMore={!!hasNextPage}
@@ -35,6 +39,7 @@ export default function MyPosts() {
             ))}
           </div>
         </InfiniteScroll>
+        )}
       </div>
     </div>
   );

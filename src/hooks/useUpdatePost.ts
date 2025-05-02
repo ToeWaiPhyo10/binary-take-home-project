@@ -1,7 +1,7 @@
 import PostServices from "@/services/postServices";
 import { usePostsStore } from "@/store/usePostsStore";
 import { useMutation } from "@tanstack/react-query";
-import { Post } from "@/types/post";
+import { Post, UpdatePostResponse } from "@/types/post";
 
 interface UpdatePostParams {
   postId: number;
@@ -11,12 +11,12 @@ interface UpdatePostParams {
 export const useUpdatePost = () => {
   const updatePost = usePostsStore((state) => state.updatePost);
 
-  return useMutation<Post, Error, UpdatePostParams>({
+  return useMutation<UpdatePostResponse, Error, UpdatePostParams>({
     mutationFn: ({ postId, content }) =>
       PostServices.updatePostById({ postId, content }),
     onSuccess: (updatedPost) => {
       // Update both posts and userPosts in the store
-      updatePost(updatedPost);
+      updatePost(updatedPost.data);
     },
   });
 };

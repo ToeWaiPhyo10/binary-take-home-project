@@ -34,24 +34,34 @@ export const usePostsStore = create<PostsState>((set) => ({
   updatePost: (updatedPost) =>
     set((state) => ({
       posts: state.posts.map((post) =>
-        post.id === updatedPost.id ? updatedPost : post
+        post.id === updatedPost.id
+          ? {
+              ...post,
+              content: updatedPost.content,
+            }
+          : post
       ),
       userPosts: state.userPosts.map((post) =>
-        post.id === updatedPost.id ? updatedPost : post
+        post.id === updatedPost.id
+          ? {
+              ...post,
+              content: updatedPost.content,
+            }
+          : post
       ),
     })),
   likePost: (postId, userId) =>
     set((state) => {
       const updatePostLikes = (post: Post) => {
         if (post.id !== postId) return post;
-        
+
         const likes = new Set(post.likes);
         if (likes.has(userId)) {
           likes.delete(userId);
         } else {
           likes.add(userId);
         }
-        
+
         return {
           ...post,
           likes: Array.from(likes),
