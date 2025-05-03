@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import QueryProvider from "@/lib/queryProvider";
 import ScrollRestoration from "@/components/ScrollRestoration";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
           <ScrollRestoration />
           <Header />
           <main className="mx-auto max-w-4xl px-4 py-8 mt-14">{children}</main>
+          <Toaster />
         </QueryProvider>
       </body>
     </html>

@@ -2,6 +2,7 @@ import PostServices from "@/services/postServices";
 import { usePostsStore } from "@/store/usePostsStore";
 import { useMutation } from "@tanstack/react-query";
 import { Post, UpdatePostResponse } from "@/types/post";
+import { toast } from "sonner";
 
 interface UpdatePostParams {
   postId: number;
@@ -17,6 +18,10 @@ export const useUpdatePost = () => {
     onSuccess: (updatedPost) => {
       // Update both posts and userPosts in the store
       updatePost(updatedPost.data);
+      toast.success("Post updated successfully");
+    },
+    onError: (error) => {
+      toast.error("Failed to update post");
     },
   });
 };

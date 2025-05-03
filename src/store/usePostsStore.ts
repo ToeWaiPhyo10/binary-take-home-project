@@ -8,9 +8,15 @@ interface PostsState {
   appendUserPosts: (newPosts: Post[]) => void;
   updatePost: (updatedPost: Post) => void;
   likePost: (postId: number, userId: number) => void;
+  addPost: (post: Post) => void;
 }
 
 export const usePostsStore = create<PostsState>((set) => ({
+  addPost: (post) =>
+    set((state) => ({
+      posts: [post, ...state.posts],
+      userPosts: [post, ...state.userPosts],
+    })),
   posts: [],
   userPosts: [],
   appendPosts: (newPosts) =>

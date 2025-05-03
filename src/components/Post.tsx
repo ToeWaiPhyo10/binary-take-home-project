@@ -51,8 +51,12 @@ const Post = ({ post }: PostProps) => {
             onChange={(e) => setEditContent(e.target.value)}
             className="w-full p-2 border rounded-md mb-2 min-h-[100px]"
           />
-          <Button onClick={handleSave} className="w-full">
-            Save
+          <Button
+            onClick={handleSave}
+            className="w-full"
+            disabled={updatePost.isPending}
+          >
+            {updatePost.isPending ? "Saving..." : "Save"}
           </Button>
         </div>
       ) : (

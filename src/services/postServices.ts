@@ -45,6 +45,12 @@ const PostServices = {
     const res: AxiosResponse<Post> = await api.post(`/posts/${postId}/like`);
     return res.data;
   },
+  createPost: async ({ content }: { content: string }) => {
+    const res: AxiosResponse<UpdatePostResponse> = await api.post("/posts", {
+      content,
+    });
+    return res.data;
+  },
 };
 
 export default PostServices;
