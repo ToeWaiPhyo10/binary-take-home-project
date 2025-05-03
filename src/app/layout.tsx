@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import QueryProvider from "@/lib/queryProvider";
+import ScrollRestoration from "@/components/ScrollRestoration";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className={geistSans.className}>
         <QueryProvider>
+          <ScrollRestoration />
           <Header />
           <main className="mx-auto max-w-4xl px-4 py-8 mt-14">{children}</main>
         </QueryProvider>

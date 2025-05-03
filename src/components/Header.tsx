@@ -16,7 +16,9 @@ export default function Header() {
           <li>
             <Link
               href="/"
-              className={`${pathname === "/" ? "font-medium underline" : ""} hover:font-medium`}
+              className={`${
+                pathname === "/" ? "font-medium underline" : ""
+              } hover:font-medium`}
               scroll={false}
             >
               Home
@@ -25,7 +27,9 @@ export default function Header() {
           <li>
             <Link
               href="/friends"
-              className={`${pathname === "/friends" ? "font-medium underline" : ""} hover:font-medium`}
+              className={`${
+                pathname === "/friends" ? "font-medium underline" : ""
+              } hover:font-medium`}
               scroll={false}
             >
               Friends
@@ -36,7 +40,9 @@ export default function Header() {
               <li>
                 <Link
                   href="/my-posts"
-                  className={`${pathname === "/my-posts" ? "font-medium underline" : ""} hover:font-medium`}
+                  className={`${
+                    pathname === "/my-posts" ? "font-medium underline" : ""
+                  } hover:font-medium`}
                   scroll={false}
                 >
                   My Posts
@@ -58,7 +64,9 @@ export default function Header() {
             <li>
               <Link
                 href="/login"
-                className={`${pathname === "/login" ? "font-medium underline" : ""} hover:font-medium`}
+                className={`${
+                  pathname === "/login" ? "font-medium underline" : ""
+                } hover:font-medium`}
                 scroll={false}
               >
                 Login

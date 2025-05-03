@@ -23,22 +23,26 @@ export default function MyPosts() {
           <LoadingSkeleton />
         ) : (
           <InfiniteScroll
-          dataLength={posts.length}
-          next={fetchNextPage}
-          hasMore={!!hasNextPage}
-          loader={<div className="text-center py-4">Loading more posts...</div>}
-          endMessage={
-            <div className="text-center py-4 text-gray-500">
-              No more posts to load
+            data-infinite-scroll
+            data-posts-count={posts.length}
+            dataLength={posts.length}
+            next={fetchNextPage}
+            hasMore={!!hasNextPage}
+            loader={
+              <div className="text-center py-4">Loading more posts...</div>
+            }
+            endMessage={
+              <div className="text-center py-4 text-gray-500">
+                No more posts to load
+              </div>
+            }
+          >
+            <div className="space-y-6">
+              {posts.map((post: PostType) => (
+                <Post key={post.id} post={post} />
+              ))}
             </div>
-          }
-        >
-          <div className="space-y-6">
-            {posts.map((post: PostType) => (
-              <Post key={post.id} post={post} />
-            ))}
-          </div>
-        </InfiniteScroll>
+          </InfiniteScroll>
         )}
       </div>
     </div>

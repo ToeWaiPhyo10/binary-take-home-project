@@ -18,11 +18,13 @@ export default function Home() {
           <LoadingSkeleton />
         ) : (
           <InfiniteScroll
-          dataLength={posts.length}
-          next={fetchNextPage}
-          hasMore={!!hasNextPage}
-          loader={<div className="text-center py-4">Loading more posts...</div>}
-          endMessage={
+            data-infinite-scroll
+            data-posts-count={posts.length}
+            dataLength={posts.length}
+            next={fetchNextPage}
+            hasMore={!!hasNextPage}
+            loader={<div className="text-center py-4">Loading more posts...</div>}
+            endMessage={
             <div className="text-center py-4 text-gray-500">
               No more posts to load
             </div>
